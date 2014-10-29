@@ -17,7 +17,7 @@ module.exports = function (dir, option) {
                 this.set('Content-Type', 'text/javascript');
                 this.set('Content-Length', Buffer.byteLength(content));
                 this.body = content;
-                if(option.next) {
+                if(option.next && option.next.call(this)) {
                     yield * next;
                 }
             }
