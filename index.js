@@ -8,9 +8,12 @@ module.exports = function (dir, option) {
     return function* (next) {
         var fileType = (this.url.match(/\.(js)$/) || []).shift();
         if (fileType) {
-            var file = path.join(dir, this.url);
-            var content = fs.readFileSync(file,'utf-8');
-            if (!/^\/\*\*(\s)@jsx/.test(content.split('\n')[0])) {
+            var file, content = this.body;
+            if(!content) {
+                file = path.join(dir, this.url);
+                content = fs.readFileSync(file, 'utf-8');
+            }
+            if (!/\/\*\*(\s)@jsx/.test(content.split('\n')[0])) {
                 yield *next;
             } else {
                 content = reactTools.transform(content, {});
