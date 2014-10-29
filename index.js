@@ -3,6 +3,7 @@ var fs = require('fs');
 
 module.exports = function (dir, option) {
     dir = dir || process.cwd();
+    option = option||{};
     var reactTools = option.reactTools;
     return function* (next) {
         var fileType = (this.url.match(/\.(js)$/) || []).shift();
@@ -16,6 +17,9 @@ module.exports = function (dir, option) {
                 this.set('Content-Type', 'text/javascript');
                 this.set('Content-Length', Buffer.byteLength(content));
                 this.body = content;
+                if(option.next) {
+                    yield * next;
+                }
             }
         } else {
             yield *next;
