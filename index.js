@@ -14,7 +14,7 @@ module.exports = function (dir, option) {
                 yield *next;
             } else {
                 content = reactTools.transform(content, {});
-                this.set('Content-Type', 'text/javascript');
+                this.set('Content-Type', 'application/javascript;charset=utf-8');
                 this.set('Content-Length', Buffer.byteLength(content));
                 this.body = content;
                 if(option.next && option.next.call(this)) {
