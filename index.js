@@ -11,6 +11,9 @@ module.exports = function (dir, option) {
             var file, content = this.body;
             if(!content) {
                 file = path.join(dir, this.url);
+                if (!fs.existsSync(file)) {
+                    return yield *next;
+                }
                 content = fs.readFileSync(file, 'utf-8');
             }
             if (!/\/\*\*(\s)@jsx/.test(content.split('\n')[0])) {
